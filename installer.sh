@@ -69,6 +69,13 @@ if [[ -n "$api_json" ]]; then
   DOWNLOAD_URL=$(printf '%s' "$api_json" | grep -E '"browser_download_url"\s*:\s*"([^"]+\.dmg)"' | sed -E 's/.*"browser_download_url"\s*:\s*"([^"]+)".*/\1/' | head -n1)
 fi
 
+# sanitize and validate URL from API (trim CR/whitespace)
+DOWNLOAD_URL=$(printf '%s' "$DOWNLOAD_URL" | tr -d '\r' | sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//')
+if ! printf '%s' "$DOWNLOAD_URL" | grep -qE '^https?://'; then
+  log_warn "Invalid download URL from API; falling back to default."
+  DOWNLOAD_URL=""
+fi
+
 if [[ -z "$DOWNLOAD_URL" ]]; then
   DOWNLOAD_URL="$URL"
 fi
@@ -133,3 +140,4 @@ fi
 progress 100
 log_ok "Done! Aether is installed and launching."
 status "Done! Aether is installed."
+
