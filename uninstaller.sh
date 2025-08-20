@@ -1,14 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# ==============================
-# Aether Uninstaller (TUI)
-# ==============================
-# - Quits Aether if running
-# - Removes /Applications/Aether.app
-# - Optionally removes user data in ~/Library
-# - Fancy banner, colors, and spinners
-
 APP_NAME="Aether"
 APP_BUNDLE="/Applications/${APP_NAME}.app"
 
